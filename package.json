@@ -1,0 +1,25 @@
+{
+  "name": "knex-shopping",
+  "version": "0.0.1",
+  "description": "## Objective",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Reese-A/knex-shopping.git"
+  },
+  "author": "Reese A",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Reese-A/knex-shopping/issues"
+  },
+  "homepage": "https://github.com/Reese-A/knex-shopping#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "knex": "^0.14.6",
+    "pg": "^7.4.1"
+  }
+}
