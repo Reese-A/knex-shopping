@@ -7,23 +7,23 @@ router.route('/')
 router.route('/register')
   .post((req, res) => {
     // return new Promise (function(resolve, reject){
-    const user = data.rows[0];
-    const email = user.email.toLowerCase();
-    const password = user.password;
-    return knex
+      const email = req.body.email.toLowerCase();
+      const password = req.body.password;
+      return knex
       .raw(
         'INSERT INTO users (email, password) VALUES (?,?) RETURNING *', [email, password]
       )
       .then((data) => {
+        const user = data.rows[0];
         // if (!user.email || !user.password) {
-        //   return res.json({
-        //     'message': 'Please fill out all fields before submitting'
+          //   return res.json({
+            //     'message': 'Please fill out all fields before submitting'
         //   })
         // }
         return res.json({
           'id': user.id,
-          'email': email,
-          'password': password
+          'email': user.email,
+          'password': user.password
         });
       })
       .catch((err) => {
