@@ -7,7 +7,7 @@ module.exports = {
     connection: {
       host: 'localhost',
       user: 'knex_shopping_user',
-      databse: 'knex_shopping',
+      database: 'knex_shopping',
       charset: 'utf8'
     }
   },

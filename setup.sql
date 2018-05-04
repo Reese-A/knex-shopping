@@ -7,10 +7,10 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
   id serial PRIMARY KEY,
-  email varchar(255),
+  email varchar(255) UNIQUE,
   password varchar(255),
-  created_at timestamp,
-  updated_at timestamptz
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
 );
 
 CREATE TABLE products
@@ -20,14 +20,14 @@ CREATE TABLE products
   description text,
   inventory integer,
   price decimal(8,2),
-  created_at timestamptz,
-  updated_at timestamptz
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
 );
 
 CREATE TABLE cart(
   id serial PRIMARY KEY,
   user_id integer REFERENCES users(id),
   product_id integer REFERENCES products(id),
-  created_at timestamptz,
-  updated_at timestamptz
+  created_at timestamptz DEFAULT now(),
+  updated_at timestamptz DEFAULT now()
 );
