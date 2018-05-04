@@ -16,13 +16,13 @@ CREATE TABLE users
 CREATE TABLE products
 (
   id serial PRIMARY KEY,
-  title varchar(255),
-  description text,
-  inventory integer,
-  price decimal(8,2),
+  title varchar(255) CHECK (title != ''),
+  description text CHECK (description != ''),
+  inventory integer CHECK (inventory > 0),
+  price money,
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
-);
+  );
 
 CREATE TABLE cart(
   id serial PRIMARY KEY,

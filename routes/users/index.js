@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../../db/knex.js');
 
-router.route('/')
-
 router.route('/:user_id')
   .get((req, res) => {
     const user = req.params.user_id;
@@ -55,7 +53,6 @@ router.route('/login')
 
 router.route('/register')
   .post((req, res) => {
-    // return new Promise (function(resolve, reject){
     const email = req.body.email.toLowerCase();
     const password = req.body.password;
     return knex
@@ -69,11 +66,7 @@ router.route('/register')
         //     'message': 'Please fill out all fields before submitting'
         //   })
         // }
-        return res.json({
-          'id': user.id,
-          'email': user.email,
-          'password': user.password
-        });
+        return res.json(user);
       })
       .catch((err) => {
         console.log(err);
