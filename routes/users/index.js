@@ -14,11 +14,11 @@ router.route('/register')
       .then((data) => {
         const user = data.rows[0];
         console.log(user);
-        if (!user.email || !user.password) {
-          return res.json({
-            'message': 'Please fill out all fields before submitting'
-          })
-        }
+        // if (!user.email || !user.password) {
+        //   return res.json({
+        //     'message': 'Please fill out all fields before submitting'
+        //   })
+        // }
         return res.json({
           'id': user.id,
           'email': user.email,
@@ -26,6 +26,7 @@ router.route('/register')
         });
       })
       .catch((err) => {
+        console.log(err);
         return res.json({
           "message": "User already exists"
         });

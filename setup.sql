@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
   id serial PRIMARY KEY,
-  email varchar(255) UNIQUE,
-  password varchar(255),
+  email varchar(255) UNIQUE CHECK (email != ''),
+  password varchar(255) CHECK (password != ''),
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT now()
 );
