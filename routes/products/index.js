@@ -64,7 +64,7 @@ router.route('/:product_id')
         }
         return knex
           .raw(
-            'UPDATE products SET title = ?, description = ?, price = ?, inventory = ?, updated_at = now() WHERE id = ? RETURNING *',[newProduct.title, newProduct.description, newProduct.price, newProduct.inventory, productId]
+            'UPDATE products SET title = ?, description = ?, price = ?, inventory = ?, updated_at = now() WHERE id = ? RETURNING *', [newProduct.title, newProduct.description, newProduct.price, newProduct.inventory, productId]
           )
           .then((data) => {
             const updatedProd = data.rows[0];
@@ -81,7 +81,6 @@ router.route('/:product_id')
         console.log(err);
         res.send('SELECT ERROR');
       })
-
   })
 
   .delete((req, res) => {

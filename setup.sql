@@ -10,7 +10,7 @@ CREATE TABLE users
   email varchar(255) UNIQUE CHECK (email != ''),
   password varchar(255) CHECK (password != ''),
   created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
+  updated_at timestamptz DEFAULT NULL
 );
 
 CREATE TABLE products
@@ -21,7 +21,7 @@ CREATE TABLE products
   inventory integer CHECK (inventory > 0),
   price money,
   created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
+  updated_at timestamptz DEFAULT NULL
   );
 
 CREATE TABLE cart(
@@ -29,5 +29,5 @@ CREATE TABLE cart(
   user_id integer REFERENCES users(id),
   product_id integer REFERENCES products(id),
   created_at timestamptz DEFAULT now(),
-  updated_at timestamptz DEFAULT now()
+  updated_at timestamptz DEFAULT NULL
 );
