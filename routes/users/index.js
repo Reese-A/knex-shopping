@@ -95,16 +95,40 @@ router.route('/:user_id/forgot-password')
       .then((data) => {
         const user = data.rows[0];
         if (!user) {
-          return res.json({
-            "message": "New password created!"
+          return res.status(404).json({
+            "message": "User ID not found"
           })
         }
-        return res.status(404).json({
-          "message": "User ID not found"
+        return res.json({
+          "message": "New password created!"
         })
       })
-      .catch((err)=>{
+      .catch((err) => {
         return res.send('terrible things have happened')
+      });
+  });
+
+router.route('/:user_id/delete')
+  .delete((req, res) => {
+    const userId = req.params.user_id;
+    return knex
+      .raw(
+        "DELETE FROM users WHERE id = ? RETURNING *", [userId]
+      )
+      .then((data) => {
+        console.log(data);
+        const user = data.rows[0];
+        if (user) {
+          return res.json({
+            "message": `User id: ${userId} successfully deleted`
+          })
+        }
+          return res.status(400).json({
+            "message": "User ID not found"
+          })
+      })
+      .catch((err) => {
+        return res.send('ERROR')
       });
   });
 
