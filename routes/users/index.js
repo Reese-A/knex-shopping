@@ -7,15 +7,29 @@ router.route('/')
 router.route('/register')
   .post((req, res) => {
     // return new Promise (function(resolve, reject){
-    return knex.raw('INSERT INTO users (email, password) VALUES (?,?) RETURNING *',[req.body.email, req.body.password])
-    .then(function(data){
-      console.log(data.rows[0]);
-      return res.send(data.rows[0]);
+    return knex
+      .raw(
+        'INSERT INTO users (email, password) VALUES (?,?) RETURNING *', [req.body.email, req.body.password]
+      )
+      .then((data) => {
+        const user = data.rows[0];
+        console.log(user);
+        if (!user.email || !user.password) {
+          return res.json({
+            'message': 'Please fill out all fields before submitting'
+          })
+        }
+        return res.json({
+          'id': user.id,
+          'email': user.email,
+          'password': user.password
+        });
       })
-    .catch(function(err){
-      console.log(err);
-      return res.send(err.detail);
-    })
-  })
+      .catch((err) => {
+        return res.json({
+          "message": "User already exists"
+        });
+      });
+  });
 
 module.exports = router;
