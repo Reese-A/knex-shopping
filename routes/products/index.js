@@ -4,6 +4,11 @@ const knex = require('../../db/knex.js');
 
 router.route('/');
 
+// router.route('/:product_id')
+//   .get((req,res) => {
+//     const productId = req.
+//   })
+
 router.route('/new')
   .post((req, res) => {
     const title = req.body.title;
@@ -19,11 +24,12 @@ router.route('/new')
         return res.json(product);
       })
       .catch((err) => {
-        console.log(err);
-        
-        return res.send('NOOOOOOO');
+        return res.json({
+          'message':'Must POST all product fields'
+        })
       })
-  })
+  });
+
 
 
 module.exports = router;
