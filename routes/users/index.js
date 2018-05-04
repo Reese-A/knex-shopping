@@ -46,7 +46,7 @@ router.route('/login')
         return res.json(user);
       })
       .catch((err) => {
-        res.send('you fucked up')
+        res.send('something fucked up')
       });
   });
 

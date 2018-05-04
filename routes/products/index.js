@@ -4,10 +4,25 @@ const knex = require('../../db/knex.js');
 
 router.route('/');
 
-// router.route('/:product_id')
-//   .get((req,res) => {
-//     const productId = req.
-//   })
+router.route('/:product_id')
+  .get((req, res) => {
+    const productId = req.params.product_id;
+    return knex
+      .raw(
+        'SELECT * FROM products WHERE id = ?', [productId]
+      )
+      .then((data) => {
+        if (!data.rows[0]) {
+          return res.status(404).json({
+            "message": "Product not found"
+          });
+        }
+        return res.json(data.rows[0]);
+      })
+      .catch((err) => {
+        res.send('everything is on fire');
+      })
+  })
 
 router.route('/new')
   .post((req, res) => {
@@ -25,7 +40,7 @@ router.route('/new')
       })
       .catch((err) => {
         return res.json({
-          'message':'Must POST all product fields'
+          'message': 'Must POST all product fields'
         })
       })
   });
