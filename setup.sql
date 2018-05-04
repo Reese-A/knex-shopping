@@ -1,5 +1,6 @@
 \c knex_shopping knex_shopping_user;
 
+DROP TABLE IF EXISTS purchases;
 DROP TABLE IF EXISTS cart;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
@@ -31,3 +32,10 @@ CREATE TABLE cart(
   created_at timestamptz DEFAULT now(),
   updated_at timestamptz DEFAULT NULL
 );
+
+CREATE TABLE purchases(
+  id serial PRIMARY KEY,
+  user_id integer REFERENCES users(id),
+  product_id integer REFERENCES products(id),
+  created_at timestamptz DEFAULT now(),
+)

@@ -7,7 +7,7 @@ router.route('/:user_id')
     const userId = req.params.user_id;
     return knex
       .raw(
-        'SELECT products.* FROM cart INNER JOIN users ON cart.user_id = users.id INNER JOIN products ON cart.product_id = products.id WHERE users.id = ?', [userId]
+        'SELECT products.* FROM cart INNER JOIN products ON cart.product_id = products.id WHERE cart.user_id = ?', [userId]
       )
       .then((data) => {
         const cart = data.rows;
