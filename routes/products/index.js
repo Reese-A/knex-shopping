@@ -2,7 +2,25 @@ const express = require('express');
 const router = express.Router();
 const knex = require('../../db/knex.js');
 
-router.route('/');
+router.route('/')
+  .get((req, res)=>{
+    return knex
+    .raw(
+      'SELECT * FROM products'
+    )
+    .then((data) => {
+      const products = data.rows;
+      if(products.length === 0){
+        return res.json({
+          'message':'No products available'
+        })
+      }
+      return res.json(data.rows)
+    })
+    .catch((err)=>{
+      return res.send('ZOMGWTF')
+    })
+  });
 
 router.route('/:product_id')
   .get((req, res) => {
