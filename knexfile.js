@@ -3,6 +3,7 @@
 module.exports = {
 
   development: {
+    debug: true,
     client: 'pg',
     connection: {
       host: 'localhost',
