@@ -18,7 +18,9 @@ router.route('/:user_id')
         return res.json(data.rows[0]);
       })
       .catch((err) => {
-        res.send('oh no');
+        return res.json({
+          'message': 'ERROR'
+        })
       });
   })
 
@@ -41,8 +43,10 @@ router.route('/:user_id')
         })
       })
       .catch((err) => {
-        return res.send('ERROR')
-      });
+        return res.json({
+          'message': 'ERROR'
+        })
+      })
   });
 
 
@@ -70,7 +74,9 @@ router.route('/login')
         return res.json(user);
       })
       .catch((err) => {
-        res.send('something fucked up')
+        return res.json({
+          'message': 'ERROR'
+        })
       });
   });
 
@@ -121,7 +127,9 @@ router.route('/:user_id/forgot-password')
         })
       })
       .catch((err) => {
-        return res.send('terrible things have happened')
+        return res.json({
+          'message': 'ERROR'
+        })
       });
   });
 

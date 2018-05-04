@@ -18,7 +18,9 @@ router.route('/')
         return res.json(data.rows)
       })
       .catch((err) => {
-        return res.send('ERROR')
+        return res.json({
+          'message': 'ERROR'
+        })
       })
   });
 
@@ -39,7 +41,9 @@ router.route('/:product_id')
         return res.json(data.rows[0]);
       })
       .catch((err) => {
-        res.send('everything is on fire');
+        return res.json({
+          'message': 'ERROR'
+        })
       })
   })
 
@@ -74,12 +78,16 @@ router.route('/:product_id')
           })
           .catch((err) => {
             console.log(err);
-            return res.send('UPDATE ERROR');
+            return res.json({
+              'message': 'UPDATE ERROR'
+            });
           });
       })
       .catch((err) => {
         console.log(err);
-        res.send('SELECT ERROR');
+        return res.json({
+          'message': 'SELECT ERROR'
+        });
       })
   })
 
@@ -101,7 +109,9 @@ router.route('/:product_id')
         })
       })
       .catch((err) => {
-        return res.send('ERROR')
+        return res.json({
+          'message': 'ERROR'
+        })
       });
   });
 
