@@ -52,24 +52,30 @@ router.route('/:user_id/:product_id')
     const productId = req.params.product_id;
     return knex
       .raw(
-        'DELETE FROM cart WHERE user_id = ? AND product_id = ? RETURNING *', [userId, productId]
+        'DELETE FROM cart WHERE user_id = ? AND product_id = ? AND (created_at = (SELECT MAX(created_at) FROM cart WHERE cart.user_id = ?)) RETURNING *', [userId, productId, userId]
       )
       .then((data) => {
-        const cart = data.rows;
-        if (cart.length === 0) {
+        console.log(data);
+        const cart = data.rows[0];
+        console.log('CART', cart);
+        if (!cart) {
           return res.json({
             'message': 'cart could not be found'
           })
-          return res.json({
-            "success": true
-          })
         }
+        console.log('HELLO');
+        return res.json({
+          "success": true
+        })
       })
+
       .catch((err) => {
+        console.log(err);
+
         return res.json({
           'message': 'ERROR'
         });
       });
   })
-
+// 598459
 module.exports = router;

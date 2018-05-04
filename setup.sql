@@ -37,5 +37,5 @@ CREATE TABLE purchases(
   id serial PRIMARY KEY,
   user_id integer REFERENCES users(id),
   product_id integer REFERENCES products(id),
-  created_at timestamptz DEFAULT now(),
-)
+  created_at timestamptz DEFAULT now()
+);
