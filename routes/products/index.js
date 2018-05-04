@@ -3,24 +3,25 @@ const router = express.Router();
 const knex = require('../../db/knex.js');
 
 router.route('/')
-  .get((req, res)=>{
+  .get((req, res) => {
     return knex
-    .raw(
-      'SELECT * FROM products'
-    )
-    .then((data) => {
-      const products = data.rows;
-      if(products.length === 0){
-        return res.json({
-          'message':'No products available'
-        })
-      }
-      return res.json(data.rows)
-    })
-    .catch((err)=>{
-      return res.send('ZOMGWTF')
-    })
+      .raw(
+        'SELECT * FROM products'
+      )
+      .then((data) => {
+        const products = data.rows;
+        if (products.length === 0) {
+          return res.json({
+            'message': 'No products available'
+          })
+        }
+        return res.json(data.rows)
+      })
+      .catch((err) => {
+        return res.send('ZOMGWTF')
+      })
   });
+
 
 router.route('/:product_id')
   .get((req, res) => {
@@ -42,6 +43,29 @@ router.route('/:product_id')
       })
   })
 
+  .delete((req, res) => {
+    const productId = req.params.product_id;
+    return knex
+      .raw(
+        "DELETE FROM products WHERE id = ? RETURNING *", [productId]
+      )
+      .then((data) => {
+        const products = data.rows[0];
+        if (products) {
+          return res.json({
+            "message": `product id: ${productId} successfully deleted`
+          })
+        }
+        return res.status(400).json({
+          "message": `Product id: ${product_id} not found`
+        })
+      })
+      .catch((err) => {
+        return res.send('ERROR')
+      });
+  });
+  
+
 router.route('/new')
   .post((req, res) => {
     const title = req.body.title;
@@ -62,7 +86,5 @@ router.route('/new')
         })
       })
   });
-
-
 
 module.exports = router;
