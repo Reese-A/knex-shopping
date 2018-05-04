@@ -18,7 +18,7 @@ router.route('/')
         return res.json(data.rows)
       })
       .catch((err) => {
-        return res.send('ZOMGWTF')
+        return res.send('ERROR')
       })
   });
 
@@ -43,6 +43,47 @@ router.route('/:product_id')
       })
   })
 
+  .put((req, res) => {
+    const productId = req.params.product_id;
+    let newProduct = req.body
+    return knex
+      .raw(
+        'SELECT title, description, price, inventory FROM products WHERE id = ?', [productId]
+      )
+      .then((data) => {
+        const product = data.rows[0];
+        if (!product) {
+          return res.json({
+            'message': 'Product not found'
+          })
+        }
+        for (key in newProduct) {
+          if (newProduct[key] === '') {
+            newProduct[key] = product[key];
+          }
+        }
+        return knex
+          .raw(
+            'UPDATE products SET title = ?, description = ?, price = ?, inventory = ?, updated_at = now() WHERE id = ? RETURNING *',[newProduct.title, newProduct.description, newProduct.price, newProduct.inventory, productId]
+          )
+          .then((data) => {
+            const updatedProd = data.rows[0];
+            return res.json({
+              "message": `Product: ${productId} has been updated`
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            return res.send('UPDATE ERROR');
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send('SELECT ERROR');
+      })
+
+  })
+
   .delete((req, res) => {
     const productId = req.params.product_id;
     return knex
@@ -64,7 +105,7 @@ router.route('/:product_id')
         return res.send('ERROR')
       });
   });
-  
+
 
 router.route('/new')
   .post((req, res) => {
